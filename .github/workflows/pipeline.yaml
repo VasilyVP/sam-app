@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'dev'
       - 'feature**'
   delete:
     branches:
@@ -113,6 +114,9 @@ jobs:
         with:
           use-installer: true
 
+      - name: Install dependencies
+        run: npm ci
+        
       - name: Build resources
         run: sam build --template ${SAM_TEMPLATE} --use-container
 
