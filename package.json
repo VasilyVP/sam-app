@@ -1,18 +1,28 @@
 {
-    "name": "delete-test-01",
-    "description": "delete-test-01-description",
+    "name": "aws-sam",
+    "description": "aws sam check",
     "version": "0.0.1",
-    "private": true,
+    "private": false,
+    "type": "module",
     "dependencies": {
-        "@aws-sdk/client-dynamodb": "^3.398.0",
-        "@aws-sdk/lib-dynamodb": "^3.398.0"
+        "@aws-sdk/client-dynamodb": "^3.744.0",
+        "@aws-sdk/lib-dynamodb": "^3.744.0"
     },
     "devDependencies": {
+        "@types/aws-lambda": "^8.10.147",
         "aws-sdk-client-mock": "^2.0.0",
-        "jest": "^29.2.1"
+        "esbuild": "^0.25.0",
+        "tsx": "^4.19.3",
+        "vitest": "^3.0.6"
     },
     "scripts": {
-        "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
+        "validate": "sam validate",
+        "build": "sam build",
+        "start:api": "sam local start-api --port 3000 --env-vars env.json",
+        "watch": "tsx ./esbuild.mts --watch",
+        "dev": "npm run watch | npm run start:api",
+        "test": "vitest",
+        "deploy:dev": "sam build & sam deploy --config-env dev"
     },
     "jest": {
         "testMatch": [
@@ -27,4 +37,3 @@
         ]
     }
 }
-
