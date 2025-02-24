@@ -1,5 +1,5 @@
 import { describe, beforeEach, it, expect } from 'vitest';
-import { getAllItemsHandler } from '../src/handlers/getAllItems.mts';
+import { getAllItemsHandler } from './getAllItems.mts';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
 import { APIGatewayProxyEvent, Callback, Context } from 'aws-lambda';

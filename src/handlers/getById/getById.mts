@@ -1,6 +1,6 @@
 import { GetCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from "aws-lambda";
-import { dClient, tableName } from '../db.mjs';
+import { dClient, tableName } from '../../db.mjs';
 
 
 export const getByIdHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {

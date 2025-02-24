@@ -1,5 +1,5 @@
 import { describe, beforeEach, it, expect } from 'vitest';
-import { putItemHandler } from '../src/handlers/putItem.mjs';
+import { putItemHandler } from './putItem.mjs';
 import { DynamoDBDocumentClient, PutCommand, PutCommandOutput } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
 import { APIGatewayProxyEvent, Callback, Context } from 'aws-lambda';

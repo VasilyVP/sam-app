@@ -29,7 +29,7 @@ Resources:
   getAllItemsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/getAllItems.getAllItemsHandler
+      Handler: src/handlers/getAllItems/getAllItems.getAllItemsHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -56,12 +56,12 @@ Resources:
       BuildProperties:        
         <<: *esbuild_props
         EntryPoints:
-          - src/handlers/getAllItems.mts
+          - src/handlers/getAllItems/getAllItems.mts
 
   getByIdFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/getById.getByIdHandler
+      Handler: src/handlers/getById/getById.getByIdHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -87,12 +87,12 @@ Resources:
       BuildProperties:
         <<: *esbuild_props
         EntryPoints:
-          - src/handlers/getById.mts
+          - src/handlers/getById/getById.mts
 
   putItemFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/putItem.putItemHandler
+      Handler: src/handlers/putItem/putItem.putItemHandler
       Runtime: nodejs22.x
       Architectures:
         - x86_64
@@ -118,7 +118,7 @@ Resources:
       BuildProperties:
         <<: *esbuild_props
         EntryPoints:
-          - src/handlers/putItem.mts
+          - src/handlers/putItem/putItem.mts
 
   # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
   Table:

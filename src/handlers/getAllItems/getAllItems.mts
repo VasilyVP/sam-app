@@ -1,11 +1,12 @@
 
 import * as ddb from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from "aws-lambda";
-import { dClient, tableName } from '../db.mjs';
+import { dClient, tableName } from '../../db.mts';
 
 
 export const getAllItemsHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {
     let response: APIGatewayProxyResult;
+
     try {
         const data = await dClient.send(new ddb.ScanCommand({
             TableName: tableName

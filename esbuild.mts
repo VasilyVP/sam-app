@@ -4,9 +4,13 @@ import { build, BuildOptions, context } from 'esbuild';
 
 
 const functionFiles = await readdir(path.resolve('src/handlers'), { recursive: true });
+const files = functionFiles
+    .filter(file => !file.includes('test'))
+    .filter(file => file.includes('\\'))
+    .map((file) => path.resolve('src/handlers', file));
 
 const params = {
-    entryPoints: functionFiles.map((file) => path.resolve('src/handlers', file)),
+    entryPoints: files,
     outdir: '.aws-sam/build',
     entryNames: '[name]Function/[name]', // Output file name
     platform: 'node',
