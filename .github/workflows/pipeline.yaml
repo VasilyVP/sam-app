@@ -158,6 +158,14 @@ jobs:
           echo "github.event_name: ${{ github.event_name }}"
 
       - uses: actions/checkout@v3
+      - name: Echo environments
+        run: |
+          echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "ENVIRONMENT:" ${ENVIRONMENT}
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
       - run: |
           # trigger the integration tests here
 
@@ -175,12 +183,7 @@ jobs:
           echo "github.ref: ${{ github.ref }}"
           echo "github.event.ref: ${{ github.event.ref }}"
           echo "github.event_name: ${{ github.event_name }}"
-
-      - uses: actions/checkout@v3
-      - uses: aws-actions/setup-sam@v2
-        with:
-          use-installer: true
-
+  
       - name: Install dependencies
         run: npm ci
       - name: Build resources
