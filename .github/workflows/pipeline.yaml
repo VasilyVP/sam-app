@@ -73,7 +73,7 @@ jobs:
 
   # build-and-deploy non-prod environments
   build-and-deploy-non-prod:
-    if: ${{ env.ENVIRONMENT != 'prod' }}
+    if: ${{ github.ref_name != 'main' }}
     needs: [test]
     runs-on: ubuntu-latest
     steps:
@@ -107,7 +107,7 @@ jobs:
             --config-env ${ENVIRONMENT}
       
   integration-test:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref_name == 'main'
     needs: [build-and-deploy-non-prod]
     runs-on: ubuntu-latest
     steps:
@@ -116,7 +116,7 @@ jobs:
           # trigger the integration tests here
 
   deploy-prod:
-    if: ${{ env.ENVIRONMENT == 'prod' }}
+    if: github.ref_name == 'main'
     needs: [integration-test]
     runs-on: ubuntu-latest
     steps:
