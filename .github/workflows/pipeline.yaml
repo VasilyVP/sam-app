@@ -11,8 +11,8 @@ on:
       - 'feature**'
 
 env:
-  ENVIRONMENT: ${{ (github.ref_name || github.event.ref) == 'main' && 'prod' || github.ref_name }}
-  STACK_NAME: sam-app-${{ (github.ref_name || github.event.ref) == 'main' && 'prod' || github.ref_name }}
+  ENVIRONMENT: ${{ (github.ref_name == 'main' || endsWith(github.event.ref, 'main')) && 'prod' || github.ref_name }}
+  STACK_NAME: sam-app-${{ (github.ref_name == 'main' || endsWith(github.event.ref, 'main')) && 'prod' || github.ref_name }}
   SAM_TEMPLATE: template.yaml
   #TESTING_STACK_NAME: sam-app-dev
   TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-ErcdK19Y8sZt
@@ -121,7 +121,9 @@ jobs:
           role-duration-seconds: 3600
           role-skip-session-tagging: true
 
-      - name: Deploy to testing account
+      - name: Set Environment
+        run: echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
+      - name: Deploy to non prod account
         run: |
           sam deploy --stack-name ${STACK_NAME} \
             --capabilities CAPABILITY_IAM \
