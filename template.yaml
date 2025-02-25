@@ -8,10 +8,11 @@ Parameters:
   Environment:
     Type: String
     Default: local
-    AllowedValues:
-      - local
-      - dev
-      - prod
+    #AllowedValues:
+    #  - local
+    #  - dev
+    #  - prod
+    AllowedPattern: "^local$|^dev$|^prod$|^feature-[a-zA-Z0-9-]+$"
     Description: "The deployment environment"
 
 Metadata: &esbuild_props
