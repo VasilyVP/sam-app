@@ -47,7 +47,7 @@ jobs:
           # trigger the tests here
 
   delete-feature:
-    if: startsWith(env.ENVIRONMENT, 'feature') && github.event_name == 'delete'
+    if: ${{ startsWith(env.ENVIRONMENT, 'feature') && github.event_name == 'delete' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
