@@ -44,11 +44,11 @@ lint = true
 [dev.deploy.parameters]
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = true
-resolve_s3 = true
+#resolve_s3 = true
 parameter_overrides = "Environment=dev"
 
 [dev.package.parameters]
-resolve_s3 = true
+#resolve_s3 = true
 
 # Prod configuration
 [prod.global.parameters]
@@ -64,8 +64,8 @@ lint = true
 [prod.deploy.parameters]
 capabilities = "CAPABILITY_IAM"
 confirm_changeset = false
-resolve_s3 = true
+#resolve_s3 = true
 parameter_overrides = "Environment=prod"
 
 [prod.package.parameters]
-resolve_s3 = true
+#resolve_s3 = true
