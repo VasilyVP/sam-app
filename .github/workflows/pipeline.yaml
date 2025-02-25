@@ -92,7 +92,7 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     env:
-        CONFIG_ENV: ${{ startsWith(env.ENVIRONMENT, 'feature') && 'feature' || env.ENVIRONMENT }}
+      CONFIG_ENV: ${{ endsWith(github.event.ref, 'feature') && 'feature' || env.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
       - uses: aws-actions/setup-sam@v2
