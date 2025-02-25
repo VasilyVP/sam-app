@@ -30,6 +30,24 @@ warm_containers = "LAZY"
 [default.local_start_lambda.parameters]
 warm_containers = "EAGER"
 
+# Feature configuration
+[feature.global.parameters]
+[feature.build.parameters]
+cached = true
+parallel = true
+
+[feature.validate.parameters]
+lint = true
+
+[feature.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = false
+#resolve_s3 = true
+#parameter_overrides = "Environment=dev"
+
+[feature.package.parameters]
+#resolve_s3 = true
+
 # Dev configuration
 [dev.global.parameters]
 stack_name = "sam-app-dev"

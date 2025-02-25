@@ -12,7 +12,7 @@ Parameters:
     #  - local
     #  - dev
     #  - prod
-    AllowedPattern: "^local$|^dev$|^prod$|^feature-[a-zA-Z0-9-]+$"
+    AllowedPattern: "^local$|^dev$|^prod$|^feature-[a-zA-Z0-9_-]+$"
     Description: "The deployment environment"
 
 Metadata: &esbuild_props

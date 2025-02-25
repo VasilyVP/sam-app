@@ -11,8 +11,8 @@ on:
       - 'feature**'
 
 env:
-  ENVIRONMENT: ${{ (github.ref_name || github.event.ref) == 'main' && 'prod' || github.ref_name }}
-  STACK_NAME: sam-app-${{ (github.ref_name || github.event.ref) == 'main' && 'prod' || github.ref_name }}
+  ENVIRONMENT: ${{ (github.ref_name == 'main' || endsWith(github.event.ref, 'main')) && 'prod' || github.ref_name }}
+  STACK_NAME: sam-app-${{ (github.ref_name == 'main' || endsWith(github.event.ref, 'main')) && 'prod' || github.ref_name }}
   SAM_TEMPLATE: template.yaml
   #TESTING_STACK_NAME: sam-app-dev
   TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-ErcdK19Y8sZt
@@ -48,6 +48,18 @@ jobs:
       - name: Run tests
         run: npm run test
 
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "ENVIRONMENT:" ${ENVIRONMENT}
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
+
   delete-feature:
     if: ${{ startsWith(github.event.ref, 'feature') && github.event_name == 'delete' }}
     runs-on: ubuntu-latest
@@ -66,6 +78,15 @@ jobs:
           role-duration-seconds: 3600
           role-skip-session-tagging: true
 
+      - name: Echo environments
+        run: |
+          echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "ENVIRONMENT:" ${ENVIRONMENT}
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
+
       - name: Delete feature branch stack
         run: |
           sam delete \
@@ -78,11 +99,22 @@ jobs:
     if: ${{ github.ref_name != 'main' }}
     needs: [test]
     runs-on: ubuntu-latest
+    env:
+      CONFIG_ENV: ${{ endsWith(github.event.ref, 'feature') && 'feature' || github.ref_name }}
     steps:
       - uses: actions/checkout@v3
       - uses: aws-actions/setup-sam@v2
         with:
           use-installer: true
+
+      - name: Echo environments
+        run: |
+          echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "ENVIRONMENT:" ${ENVIRONMENT}
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
 
       - name: Install dependencies
         run: npm ci
@@ -99,7 +131,7 @@ jobs:
           role-duration-seconds: 3600
           role-skip-session-tagging: true
 
-      - name: Deploy to testing account
+      - name: Deploy to non prod account
         run: |
           sam deploy --stack-name ${STACK_NAME} \
             --capabilities CAPABILITY_IAM \
@@ -107,14 +139,33 @@ jobs:
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
-            --config-env ${ENVIRONMENT}
+            --config-env ${CONFIG_ENV} \
+            --parameter-overrides Environment=${ENVIRONMENT}
       
   integration-test:
     if: ${{ github.ref_name == 'main' }}
     #needs: [build-and-deploy-non-prod]
     runs-on: ubuntu-latest
     steps:
+      
+      - name: Echo environments
+        run: |
+          echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "ENVIRONMENT:" ${ENVIRONMENT}
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
+
       - uses: actions/checkout@v3
+      - name: Echo environments
+        run: |
+          echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "ENVIRONMENT:" ${ENVIRONMENT}
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
       - run: |
           # trigger the integration tests here
 
@@ -123,15 +174,21 @@ jobs:
     needs: [integration-test]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: aws-actions/setup-sam@v2
-        with:
-          use-installer: true
 
+      - name: Echo environments
+        run: |
+          echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "ENVIRONMENT:" ${ENVIRONMENT}
+          echo "github.ref_name: ${{ github.ref_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "github.event.ref: ${{ github.event.ref }}"
+          echo "github.event_name: ${{ github.event_name }}"
+  
       - name: Install dependencies
         run: npm ci
       - name: Build resources
-        run: npm run build --template ${SAM_TEMPLATE}
+        run: npm run build
+        #--template ${SAM_TEMPLATE}
 
       - name: Assume the prod pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
