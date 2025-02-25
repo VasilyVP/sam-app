@@ -147,7 +147,7 @@ jobs:
     #needs: [build-and-deploy-non-prod]
     runs-on: ubuntu-latest
     steps:
-      
+      - uses: actions/checkout@v3
       - name: Echo environments
         run: |
           echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
@@ -156,8 +156,6 @@ jobs:
           echo "github.ref: ${{ github.ref }}"
           echo "github.event.ref: ${{ github.event.ref }}"
           echo "github.event_name: ${{ github.event_name }}"
-
-      - uses: actions/checkout@v3
       - run: |
           # trigger the integration tests here
 
@@ -166,6 +164,10 @@ jobs:
     needs: [integration-test]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
 
       - name: Echo environments
         run: |
@@ -175,12 +177,7 @@ jobs:
           echo "github.ref: ${{ github.ref }}"
           echo "github.event.ref: ${{ github.event.ref }}"
           echo "github.event_name: ${{ github.event_name }}"
-
-      - uses: actions/checkout@v3
-      - uses: aws-actions/setup-sam@v2
-        with:
-          use-installer: true
-
+  
       - name: Install dependencies
         run: npm ci
       - name: Build resources
