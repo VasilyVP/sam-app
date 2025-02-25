@@ -73,40 +73,9 @@ jobs:
             --region ${TESTING_REGION} \
             --no-prompts
 
-  build-and-deploy-feature:
-    #if: startsWith(env.ENVIRONMENT, 'feature')
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: aws-actions/setup-sam@v2
-        with:
-          use-installer: true
-      - run: sam build --template ${SAM_TEMPLATE} --use-container
-
-      - name: Assume the testing pipeline user role
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ env.TESTING_REGION }}
-          role-to-assume: ${{ env.TESTING_PIPELINE_EXECUTION_ROLE }}
-          role-session-name: feature-deployment
-          role-duration-seconds: 3600
-          role-skip-session-tagging: true
-
-      - name: Deploy to feature stack in the testing account
-        shell: bash
-        run: |
-          sam deploy --stack-name ${STACK_NAME} \
-            --capabilities CAPABILITY_IAM \
-            --region ${TESTING_REGION} \
-            --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
-            --no-fail-on-empty-changeset \
-            --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
-            --config-env ${ENVIRONMENT}
-
   # build-and-deploy non-prod environments
   build-and-deploy-non-prod:
-    if: ${{ env.ENVIRONMENT != 'prod' }}
+    if: env.ENVIRONMENT != 'prod'
     needs: [test]
     runs-on: ubuntu-latest
     steps:
@@ -149,7 +118,7 @@ jobs:
           # trigger the integration tests here
 
   deploy-prod:
-    if: ${{ env.ENVIRONMENT == 'prod' }}
+    if: env.ENVIRONMENT == 'prod'
     needs: [integration-test]
     runs-on: ubuntu-latest
     steps:
