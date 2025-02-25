@@ -121,8 +121,6 @@ jobs:
           role-duration-seconds: 3600
           role-skip-session-tagging: true
 
-      - name: Set Environment
-        run: echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
       - name: Deploy to non prod account
         run: |
           sam deploy --stack-name ${STACK_NAME} \
@@ -132,6 +130,7 @@ jobs:
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
             --config-env ${ENVIRONMENT}
+            --parameter-overrides Environment=${ENVIRONMENT}
       
   integration-test:
     if: ${{ github.ref_name == 'main' }}
