@@ -85,7 +85,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build resources
-        run: sam build --template ${SAM_TEMPLATE} --use-container
+        run: sam build --template ${SAM_TEMPLATE}
 
       - name: Assume the testing pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
@@ -128,7 +128,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build resources
-        run: sam build --template ${SAM_TEMPLATE} --use-container
+        run: sam build --template ${SAM_TEMPLATE}
 
       - name: Assume the prod pipeline user role
         uses: aws-actions/configure-aws-credentials@v4
