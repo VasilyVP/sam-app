@@ -11,8 +11,8 @@ on:
       - 'feature**'
 
 env:
-  ENVIRONMENT: ${{ (github.ref_name == 'main' || endsWith(github.event.ref, 'main')) && 'prod' || github.ref_name }}
-  STACK_NAME: sam-app-${{ (github.ref_name == 'main' || endsWith(github.event.ref, 'main')) && 'prod' || github.ref_name }}
+  ENVIRONMENT: ${{ github.event.ref == 'main' && 'prod' || github.event.ref }}
+  STACK_NAME: sam-app-${{ github.event.ref == 'main' && 'prod' || github.event.ref }}
   SAM_TEMPLATE: template.yaml
   #TESTING_STACK_NAME: sam-app-dev
   TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-ErcdK19Y8sZt
@@ -61,7 +61,7 @@ jobs:
           echo "github.event_name: ${{ github.event_name }}"
 
   delete-feature:
-    if: ${{ startsWith(github.event.ref, 'feature') && github.event_name == 'delete' }}
+    if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'feature') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -96,7 +96,7 @@ jobs:
 
   # build-and-deploy non-prod environments
   build-and-deploy-non-prod:
-    if: ${{ github.ref_name != 'main' }}
+    if: ${{ github.event_name == 'push' && github.event.ref != 'main' }}
     needs: [test]
     runs-on: ubuntu-latest
     env:
@@ -143,7 +143,7 @@ jobs:
             --parameter-overrides Environment=${ENVIRONMENT}
       
   integration-test:
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.event_name == 'push' && github.event.ref == 'main' }}
     #needs: [build-and-deploy-non-prod]
     runs-on: ubuntu-latest
     steps:
@@ -170,7 +170,7 @@ jobs:
           # trigger the integration tests here
 
   deploy-prod:
-    if: ${{ github.ref_name == 'main' }}
+    if: ${{ github.event_name == 'push' && github.event.ref == 'main' }}
     needs: [integration-test]
     runs-on: ubuntu-latest
     steps:
