@@ -4,11 +4,7 @@ import { dClient, tableName } from '../../db.mjs';
 
 
 export const getByIdHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {
-    if (event.httpMethod !== 'GET') {
-        throw new Error(`getMethod only accept GET method, you tried: ${event.httpMethod}`);
-    }
-
-    let response;
+    let response: APIGatewayProxyResult;
     try {
         // Get id from pathParameters from APIGateway because of `/{id}` at template.yaml
         const id = event.pathParameters?.id;
@@ -27,6 +23,7 @@ export const getByIdHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult
 
         response = {
             statusCode: 500,
+            body: "Internal Server Error",
         };
     }
 

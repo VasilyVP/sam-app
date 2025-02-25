@@ -4,10 +4,6 @@ import { dClient, tableName } from '../../db.mjs';
 
 
 export const putItemHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {
-    if (event.httpMethod !== 'POST') {
-        throw new Error(`postMethod only accepts POST method, you tried: ${event.httpMethod} method.`);
-    }
-
     let response: APIGatewayProxyResult;
     try {
         const body = JSON.parse(event.body!);
