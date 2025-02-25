@@ -91,6 +91,8 @@ jobs:
     if: ${{ github.ref_name != 'main' }}
     needs: [test]
     runs-on: ubuntu-latest
+    env:
+        CONFIG_ENV: ${{ startsWith(env.ENVIRONMENT, 'feature') && 'feature' || env.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
       - uses: aws-actions/setup-sam@v2
@@ -129,6 +131,7 @@ jobs:
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE} \
+            --config-env ${CONFIG_ENV} \
             --parameter-overrides Environment=${ENVIRONMENT}
       
   integration-test:
