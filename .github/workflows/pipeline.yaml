@@ -10,6 +10,7 @@ on:
     branches:
       - 'feature**'
 
+      
 env:
   ENVIRONMENT: ${{ github.event_name == 'push' && (github.ref_name == 'main' && 'prod' || github.ref_name) || 'dev' }}
   STACK_NAME: sam-app-${{ github.event_name == 'push' && (github.ref_name == 'main' && 'prod' || github.ref_name) || 'dev' }}
