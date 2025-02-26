@@ -5,6 +5,7 @@ import { dClient, tableName } from '../../db.mjs';
 
 export const putItemHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {
     let response: APIGatewayProxyResult;
+    
     try {
         const body = JSON.parse(event.body!);
         const { id, name } = body;
