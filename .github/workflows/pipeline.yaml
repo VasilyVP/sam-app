@@ -11,8 +11,8 @@ on:
       - 'feature**'
 
 env:
-  ENVIRONMENT: ${{ github.event_name == 'push' && (github.base_ref == 'main' && 'prod' || github.base_ref) || 'dev' }}
-  STACK_NAME: sam-app-${{ github.event_name == 'push' && (github.base_ref == 'main' && 'prod' || github.base_ref) || 'dev' }}
+  ENVIRONMENT: ${{ github.event_name == 'push' && (github.ref_name == 'main' && 'prod' || github.ref_name) || 'dev' }}
+  STACK_NAME: sam-app-${{ github.event_name == 'push' && (github.ref_name == 'main' && 'prod' || github.ref_name) || 'dev' }}
   SAM_TEMPLATE: template.yaml
   #TESTING_STACK_NAME: sam-app-dev
   TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-ErcdK19Y8sZt
@@ -99,11 +99,11 @@ jobs:
 
   # build-and-deploy non-prod environments
   build-and-deploy-non-prod:
-    if: ${{ github.event_name == 'push' && github.base_ref != 'main' }}
+    if: ${{ github.event_name == 'push' && github.ref_name != 'main' }}
     needs: [test]
     runs-on: ubuntu-latest
     env:
-      CONFIG_ENV: ${{ endsWith(github.base_ref, 'feature') && 'feature' || github.base_ref }}
+      CONFIG_ENV: ${{ endsWith(github.ref_name, 'feature') && 'feature' || github.ref_name }}
     steps:
       - uses: actions/checkout@v3
       - uses: aws-actions/setup-sam@v2
@@ -147,7 +147,7 @@ jobs:
             --parameter-overrides Environment=${ENVIRONMENT}
       
   integration-test:
-    if: ${{ github.event_name == 'push' && github.base_ref == 'main' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
     #needs: [build-and-deploy-non-prod]
     runs-on: ubuntu-latest
     steps:
@@ -165,7 +165,7 @@ jobs:
           # trigger the integration tests here
 
   deploy-prod:
-    if: ${{ github.event_name == 'push' && github.base_ref == 'main' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
     needs: [integration-test]
     runs-on: ubuntu-latest
     steps:
