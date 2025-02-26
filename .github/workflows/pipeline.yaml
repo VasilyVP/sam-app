@@ -93,7 +93,7 @@ jobs:
       - name: Delete feature branch stack
         run: |
           sam delete \
-            --stack-name ${STACK_NAME} \
+            --stack-name ${{ github.event.ref }} \
             --region ${TESTING_REGION} \
             --no-prompts
 
