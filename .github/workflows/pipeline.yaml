@@ -84,10 +84,7 @@ jobs:
         run: |
           echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
           echo "ENVIRONMENT:" ${ENVIRONMENT}
-<<<<<<< HEAD
           echo "github.base_ref: ${{ github.base_ref }}"
-=======
->>>>>>> main
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "github.ref: ${{ github.ref }}"
           echo "github.event.ref: ${{ github.event.ref }}"
@@ -106,11 +103,7 @@ jobs:
     needs: [test]
     runs-on: ubuntu-latest
     env:
-<<<<<<< HEAD
       CONFIG_ENV: ${{ endsWith(github.ref_name, 'feature') && 'feature' || github.ref_name }}
-=======
-      CONFIG_ENV: ${{ endsWith(github.event.ref, 'feature') && 'feature' || github.ref_name }}
->>>>>>> main
     steps:
       - uses: actions/checkout@v3
       - uses: aws-actions/setup-sam@v2
@@ -121,10 +114,7 @@ jobs:
         run: |
           echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
           echo "ENVIRONMENT:" ${ENVIRONMENT}
-<<<<<<< HEAD
           echo "github.base_ref: ${{ github.base_ref }}"
-=======
->>>>>>> main
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "github.ref: ${{ github.ref }}"
           echo "github.event.ref: ${{ github.event.ref }}"
@@ -176,10 +166,7 @@ jobs:
         run: |
           echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
           echo "ENVIRONMENT:" ${ENVIRONMENT}
-<<<<<<< HEAD
           echo "github.base_ref: ${{ github.base_ref }}"
-=======
->>>>>>> main
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "github.ref: ${{ github.ref }}"
           echo "github.event.ref: ${{ github.event.ref }}"
@@ -197,10 +184,7 @@ jobs:
         run: |
           echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
           echo "ENVIRONMENT:" ${ENVIRONMENT}
-<<<<<<< HEAD
           echo "github.base_ref: ${{ github.base_ref }}"
-=======
->>>>>>> main
           echo "github.ref_name: ${{ github.ref_name }}"
           echo "github.ref: ${{ github.ref }}"
           echo "github.event.ref: ${{ github.event.ref }}"
