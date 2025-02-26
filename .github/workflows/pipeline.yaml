@@ -9,7 +9,6 @@ on:
   delete:
     branches:
       - 'feature**'
-
       
 env:
   ENVIRONMENT: ${{ github.event_name == 'push' && (github.ref_name == 'main' && 'prod' || github.ref_name) || 'dev' }}
