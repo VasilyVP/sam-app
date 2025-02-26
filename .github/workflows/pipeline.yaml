@@ -113,7 +113,7 @@ jobs:
       
   integration-test:
     if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
-    #needs: [build-and-deploy-non-prod]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
