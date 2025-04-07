@@ -47,6 +47,7 @@ jobs:
       - name: Run tests
         run: npm run test
 
+  # delete feature branch stack when the branch is deleted
   delete-feature:
     if: ${{ github.event_name == 'delete' && startsWith(github.event.ref, 'feature') }}
     runs-on: ubuntu-latest

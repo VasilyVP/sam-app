@@ -1,3 +1,5 @@
+# This file is used by AWS CodeBuild to build the application and package it for deployment to AWS Lambda
+# It is not used in case of GitHub Actions
 version: 0.2
 phases:
   install:
