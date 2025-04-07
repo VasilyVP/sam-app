@@ -20,7 +20,7 @@
         "build": "sam build",
         "start:api": "sam local start-api --port 3000 --env-vars env.json",
         "watch": "tsx ./esbuild.mts --watch",
-        "dev": "npm run watch | npm run start:api",
+        "dev": "concurrently -n \"Build,API\" -c \"blue,green\" \"npm run watch\" \"npm run start:api\"",
         "test": "vitest",
         "deploy:dev": "sam build & sam deploy --config-env dev"
     },

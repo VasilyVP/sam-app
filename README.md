@@ -22,26 +22,43 @@ To start development in a watch mode with local API Gateway
 npm run dev
 ```
 
-## Deploy the sample application
+## Deploy from local
 
-To build and deploy your application for the first time, run the following in your shell:
+To build and deploy application locally for the first time run the following:
 
 ```bash
 sam build
 sam deploy --guided
 ```
 
-## Use the AWS SAM CLI to build and test locally
+## CI/CD
 
-Build your application by using the `sam build` command.
+1. Push to GitHub to the branch: `prod`, `test`, `dev` or `feature/...`
+2. CD creates proper Lambda app, API gateway and DynamoDB table like `sam-app-dev` or `sam-app-feature-my_feature` and `Sample-dev` DynamoDB table.
+
+Pushing code to prod additionally triggers integration tests.
 
 ```bash
 my-application$ sam build
 ```
+
+## Invoke single function without running sam api server (only for JS)
 
 Run functions locally and invoke them with the `sam local invoke` command.
 
 ```bash
 my-application$ sam local invoke putItemFunction --event events/event-post-item.json
 my-application$ sam local invoke getAllItemsFunction --event events/event-get-all-items.json
+```
+
+## Check SAM template
+
+```bash
+npm run validate
+```
+
+## Run unit tests
+
+```bash
+npm run test
 ```
