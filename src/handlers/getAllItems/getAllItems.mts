@@ -7,6 +7,8 @@ import { dClient, tableName } from '../../db.mts';
 export const getAllItemsHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {
     let response: APIGatewayProxyResult;
 
+    console.log('event: ', event);
+
     try {
         const data = await dClient.send(new ddb.ScanCommand({
             TableName: tableName

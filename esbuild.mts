@@ -12,7 +12,7 @@ const files = functionFiles
 const params = {
     entryPoints: files,
     outdir: '.aws-sam/build',
-    entryNames: '[name]Function/[name]', // Output file name
+    entryNames: '[name]/[name]', // Output file name // '[name]Function/[name]'
     platform: 'node',
     format: 'esm',
     sourcemap: false,
