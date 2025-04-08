@@ -17,9 +17,18 @@ npm run build # sam build
 
 ## Start development
 
-To start development in a watch mode with local API Gateway
+### Locally
+
+To start development in a watch mode with local services
 ```bash
-npm run dev
+npm run dev:local
+```
+
+### Remote resources
+
+To start development in a watch mode with remote resources
+```bash
+npm run dev:sync {{stack-name}} // e.g. dev, feature-myfeature
 ```
 
 ## Deploy from local
