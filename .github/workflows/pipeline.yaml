@@ -24,9 +24,9 @@ env:
   TESTING_REGION: us-east-2
 
   #PROD_STACK_NAME: sam-app-prod
-  PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-prod-pipe-PipelineExecutionRole-UKLw2v2FMwiW
-  PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-prod--CloudFormationExecutionRo-RNcSdsGiGsX2
-  PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-prod-pipeline--artifactsbucket-5ej6apy1aw0v
+  PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-prod-pipe-PipelineExecutionRole-UkyWjpk7YnRH
+  PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-prod--CloudFormationExecutionRo-bircBPEXDFJQ
+  PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-prod-pipeline--artifactsbucket-nbrbddmzowro
   # If there are functions with "Image" PackageType in your template,
   # uncomment the line below and add "--image-repository ${PROD_IMAGE_REPOSITORY}" to
   # prod "sam package" and "sam deploy" commands.
