@@ -1,6 +1,7 @@
 import { GetCommand } from '@aws-sdk/lib-dynamodb';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from "aws-lambda";
 import { dClient, tableName } from '../../db.mjs';
+import { GetResponseJson, InternalErrorResponse } from '../../Response.ts';
 
 
 export const getByIdHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event) => {
@@ -14,17 +15,11 @@ export const getByIdHandler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult
             Key: { id: id },
         }));
 
-        response = {
-            statusCode: 200,
-            body: JSON.stringify(data.Item),
-        };
+        response = new GetResponseJson(data.Item);
     } catch (err) {
         console.error("Error: ", err.stack);
 
-        response = {
-            statusCode: 500,
-            body: "Internal Server Error",
-        };
+        response = new InternalErrorResponse();
     }
 
     console.info(`response from: ${event.path} statusCode: ${response.statusCode} body: ${response.body}`);

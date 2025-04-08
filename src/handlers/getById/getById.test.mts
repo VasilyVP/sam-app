@@ -3,6 +3,7 @@ import { getByIdHandler } from './getById.mjs';
 import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
 import { APIGatewayProxyEvent, Callback, Context } from 'aws-lambda';
+import { GetResponseJson } from '../../Response.ts';
 
 
 describe('Test getByIdHandler', () => {
@@ -29,10 +30,7 @@ describe('Test getByIdHandler', () => {
 
         const result = await getByIdHandler(event, {} as Context, {} as Callback);
 
-        const expectedResult = {
-            statusCode: 200,
-            body: JSON.stringify(item)
-        };
+        const expectedResult = new GetResponseJson(item);
 
         expect(result).toEqual(expectedResult);
     });

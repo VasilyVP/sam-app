@@ -3,6 +3,7 @@ import { getAllItemsHandler } from './getAllItems.mts';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
 import { APIGatewayProxyEvent, Callback, Context } from 'aws-lambda';
+import { GetResponseJson } from '../../Response.ts';
 
 
 describe('Test getAllItemsHandler', () => {
@@ -25,10 +26,7 @@ describe('Test getAllItemsHandler', () => {
 
         const result = await getAllItemsHandler(event, {} as Context, {} as Callback);
 
-        const expectedResult = {
-            statusCode: 200,
-            body: JSON.stringify(items)
-        };
+        const expectedResult = new GetResponseJson(items);
 
         // Compare the result with the expected result 
         expect(result).toEqual(expectedResult);
