@@ -3,6 +3,7 @@ import { putItemHandler } from './putItem.mjs';
 import { DynamoDBDocumentClient, PutCommand, PutCommandOutput } from '@aws-sdk/lib-dynamodb';
 import { mockClient } from "aws-sdk-client-mock";
 import { APIGatewayProxyEvent, Callback, Context } from 'aws-lambda';
+import { PostResponseJson } from '../../Response.ts';
 
 
 describe('Test putItemHandler', function () {
@@ -28,10 +29,7 @@ describe('Test putItemHandler', function () {
 
         const result = await putItemHandler(event, {} as Context, {} as Callback);
 
-        const expectedResult = {
-            statusCode: 200,
-            body: JSON.stringify(returnedItem)
-        };
+        const expectedResult = new PostResponseJson(returnedItem);
 
         // Compare the result with the expected result 
         expect(result).toEqual(expectedResult);
