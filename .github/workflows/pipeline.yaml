@@ -14,23 +14,17 @@ env:
   ENVIRONMENT: ${{ github.event_name == 'push' && (github.ref_name == 'main' && 'prod' || github.ref_name) || 'dev' }}
   STACK_NAME: sam-app-${{ github.event_name == 'push' && (github.ref_name == 'main' && 'prod' || github.ref_name) || 'dev' }}
   SAM_TEMPLATE: template.yaml
-  TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-dev-pipel-PipelineExecutionRole-6oGanrr8lmMk
-  TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionRo-4GZrEdsKMu1H
-  TESTING_ARTIFACTS_BUCKET: aws-sam-cli-managed-dev-pipeline-r-artifactsbucket-pptd4xzhzde8
-  # If there are functions with "Image" PackageType in your template,
-  # uncomment the line below and add "--image-repository ${TESTING_IMAGE_REPOSITORY}" to
-  # testing "sam package" and "sam deploy" commands.
-  # TESTING_IMAGE_REPOSITORY = '0123456789.dkr.ecr.region.amazonaws.com/repository-name'
+  
+  # Dev and features
+  TESTING_PIPELINE_EXECUTION_ROLE: ${{ secrets.TESTING_PIPELINE_EXECUTION_ROLE }}
+  TESTING_CLOUDFORMATION_EXECUTION_ROLE: ${{ secrets.TESTING_CLOUDFORMATION_EXECUTION_ROLE }}
+  TESTING_ARTIFACTS_BUCKET: ${{ secrets.TESTING_ARTIFACTS_BUCKET }}
   TESTING_REGION: us-east-2
-
-  #PROD_STACK_NAME: sam-app-prod
-  PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-prod-pipe-PipelineExecutionRole-JSwP49gF3ZHx
-  PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::962155775009:role/aws-sam-cli-managed-prod--CloudFormationExecutionRo-8ANs9poTdXn4
-  PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-prod-pipeline--artifactsbucket-nbrbddmzowro
-  # If there are functions with "Image" PackageType in your template,
-  # uncomment the line below and add "--image-repository ${PROD_IMAGE_REPOSITORY}" to
-  # prod "sam package" and "sam deploy" commands.
-  # PROD_IMAGE_REPOSITORY = '0123456789.dkr.ecr.region.amazonaws.com/repository-name'
+  
+  # PROD
+  PROD_PIPELINE_EXECUTION_ROLE: ${{ secrets.PROD_PIPELINE_EXECUTION_ROLE }}
+  PROD_CLOUDFORMATION_EXECUTION_ROLE: ${{ secrets.PROD_CLOUDFORMATION_EXECUTION_ROLE }}
+  PROD_ARTIFACTS_BUCKET: ${{ secrets.PROD_ARTIFACTS_BUCKET }}
   PROD_REGION: us-east-2
 
 permissions:
